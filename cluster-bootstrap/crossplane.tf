@@ -8,6 +8,7 @@ module "crossplane" {
   source = "github.com/awslabs/crossplane-on-eks/bootstrap/terraform/addon/"
   enable_crossplane = true
   crossplane = {
+    chart_version = "1.15.0"
     values = [yamlencode({
       args    = ["--enable-environment-configs"]
       metrics = {
@@ -57,7 +58,7 @@ locals {
   
   upbound_aws_provider = {
     enable               = var.enable_upbound_aws_provider # defaults to true
-    version              = "v0.40.0"
+    version              = "v1.1.0"
     controller_config    = "upbound-aws-controller-config"
     provider_config_name = "aws-provider-config" #this is the providerConfigName used in all the examples in this repo
     families = [
@@ -76,7 +77,7 @@ locals {
 
   kubernetes_provider = {
     enable                = var.enable_kubernetes_provider # defaults to true
-    version               = "v0.9.0"
+    version               = "v0.12.1"
     service_account       = "kubernetes-provider"
     name                  = "kubernetes-provider"
     controller_config     = "kubernetes-controller-config"
