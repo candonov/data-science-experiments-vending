@@ -166,6 +166,17 @@ module "eks_blueprints_addons" {
   cluster_endpoint  = module.eks.cluster_endpoint
   cluster_version   = module.eks.cluster_version
   oidc_provider_arn = module.eks.oidc_provider_arn
+  enable_argocd         = true
+  argocd = {
+    namespace       = "argocd"
+    chart_version   = "6.3.1" # ArgoCD v2.10.1
+    values          = [
+      templatefile("${path.module}/values/argocd.yaml", {
+        crossplane_aws_provider_enable = local.aws_provider.enable
+        crossplane_upbound_aws_provider_enable = local.upbound_aws_provider.enable
+        crossplane_kubernetes_provider_enable = local.kubernetes_provider.enable
+      })]
+  }
 
   enable_metrics_server = true
 

@@ -1,45 +1,3 @@
-#provider "aws" {
-#  region = var.region
-#}
-#
-#provider "kubernetes" {
-#  host                   = module.eks.cluster_endpoint
-#  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-#
-#  exec {
-#    api_version = "client.authentication.k8s.io/v1beta1"
-#    command     = "aws"
-#    # This requires the awscli to be installed locally where Terraform is executed
-#    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-#  }
-#}
-#
-#provider "helm" {
-#  kubernetes {
-#    host                   = module.eks.cluster_endpoint
-#    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-#
-#    exec {
-#      api_version = "client.authentication.k8s.io/v1beta1"
-#      command     = "aws"
-#      # This requires the awscli to be installed locally where Terraform is executed
-#      args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-#    }
-#  }
-#}
-#
-#data "aws_availability_zones" "available" {}
-#data "aws_caller_identity" "current" {}
-#
-#locals {
-#  name     = coalesce(var.name, basename(path.cwd))
-#
-#  tags = {
-#    Blueprint  = local.name
-#    GithubRepo = "github.com/aws-ia/terraform-aws-eks-blueprints"
-#  }
-#}
-#
 ################################################################################
 # CUR
 ################################################################################
@@ -283,7 +241,7 @@ module "eks_blueprints_addon" {
   namespace        = "kubecost"
   create_namespace = true
 
-  values = [templatefile("kubecost-values.yaml", {
+  values = [templatefile("values/kubecost.yaml", {
     kubecostToken    = var.kubecost_token
     service-account  = "kubecost-cost-analyzer"
     iam-role-arn     = module.kubecost_irsa.iam_role_arn

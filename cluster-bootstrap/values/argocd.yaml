@@ -58,6 +58,7 @@ server:
         prometheus.io/scrape: true
   service:
     type: "LoadBalancer"
+    annotations: { service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing" }
 
 configs:
   params:
